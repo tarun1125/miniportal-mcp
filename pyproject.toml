@@ -1,0 +1,23 @@
+[project]
+name = "miniportal-mcp"
+version = "0.1.0"
+description = "Local MCP server that bridges Claude to a real browser via Playwright (mini Chrome-Connector)"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.2.0",
+    "playwright>=1.45.0",
+    "pyyaml>=6.0.1",
+    "python-dotenv>=1.0.1",
+    "structlog>=24.1.0",
+    "cachetools>=5.3.3",
+]
+
+[project.scripts]
+miniportal-mcp = "miniportal.server:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]

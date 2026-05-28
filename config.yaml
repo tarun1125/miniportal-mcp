@@ -1,0 +1,33 @@
+# MiniPortal MCP configuration
+# Edit this file to control which domains the server is allowed to touch
+# and how aggressively to cache extracted data.
+
+# URL allowlist: domain suffixes. Server refuses to navigate elsewhere.
+# Add your AT&T portal domains here later. Empty list = allow everything (dev only).
+url_allowlist:
+  - github.com
+  - api.github.com
+  - news.ycombinator.com
+  - example.com
+
+# Cache TTL per tool call (seconds). 0 = no caching.
+# Keeps Claude from re-scraping the same page within a short window.
+cache:
+  enabled: true
+  ttl_seconds: 60
+  max_entries: 128
+
+# Per-tool defaults
+defaults:
+  wait_until: "domcontentloaded"   # options: load, domcontentloaded, networkidle
+  viewport:
+    width: 1366
+    height: 768
+
+# Redaction patterns for logs. Anything matching these regexes is masked.
+log_redaction:
+  - "ghp_[A-Za-z0-9]{36,}"          # GitHub PAT
+  - "github_pat_[A-Za-z0-9_]{50,}"  # GitHub fine-grained PAT
+  - "(?i)password=[^&\\s]+"
+  - "(?i)token=[^&\\s]+"
+  - "(?i)authorization:\\s*\\S+"

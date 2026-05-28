@@ -1,0 +1,28 @@
+# Session storage - contains cookies and auth tokens. NEVER commit.
+sessions/*.json
+!sessions/.gitkeep
+
+# Env files
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Playwright artifacts
+playwright-report/
+test-results/
