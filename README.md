@@ -29,7 +29,7 @@ Think of it as a small-scale, locally-controlled version of the official Claude 
                                           +-------------+--------------+
                                           |             |              |
                                      Context A    Context B      Context C
-                                     "github"     "att-portal"   "default"
+                                     "github"     "portal"       "default"
                                      (cookies)    (cookies)      (cookies)
 ```
 
@@ -156,7 +156,7 @@ Claude should:
 | Layer | What it stops |
 |---|---|
 | URL allowlist (`config.yaml`) | Server refuses to navigate to non-allowlisted domains. Stops accidental or prompt-injected exfiltration. |
-| Session isolation (one context per name) | GitHub cookies can't leak into your AT&T portal session. |
+| Session isolation (one context per name) | GitHub cookies can't leak into your portal session. |
 | Log redaction (`config.yaml` regex list) | Tokens, passwords in query strings, Authorization headers are masked in logs. |
 | Form-fill value never logged | Only the length of typed values is logged, not the value itself. |
 | Sessions git-ignored | `sessions/*.json` never accidentally committed. |
@@ -176,20 +176,20 @@ Claude should:
 - No metrics. Logs only. Production: add Prometheus or OpenTelemetry.
 
 **Over-engineered for a POC, but kept because it pays off later:**
-- Allowlist enforcement at the security layer. For local play you could skip it; for the eventual AT&T migration you absolutely need it.
+- Allowlist enforcement at the security layer. For local play you could skip it; for the eventual VD migration you absolutely need it.
 - Per-session contexts (vs one global context). One context would be simpler, but mixing GitHub + portal cookies makes session-export to production unsafe.
 - Caching layer. At POC scale you'd never notice; once you start scraping the same dashboard repeatedly during agent loops, the saved requests matter.
 
-## Migration path to VD / AT&T
+## Migration path to VD
 
-Things that will need to change when you take this inside AT&T:
+Things that will need to change when you take this inside a locked-down VD:
 
 1. **Playwright Chromium binaries** — need to be downloadable, or pre-packaged. Many VDs block first-run downloads.
 2. **Allowlist** — replace test entries with your real portal domains.
 3. **SSO/RSA tokens** — `login_capture.py` already handles this (you log in manually). Only re-runs needed when sessions expire.
 4. **Headless detection** — some enterprise portals detect headless Chromium. Set `HEADLESS=false` first to verify the portal works, then test headless.
 5. **Network egress rules** — verify VD firewall lets Chromium reach the portal hostnames (it should — same hostnames your real browser uses).
-6. **Audit logging** — pipe stderr JSON logs to whatever IBM/AT&T logging stack expects. Already structured, no rewriting needed.
+6. **Audit logging** — pipe stderr JSON logs to whatever logging stack the VD environment expects. Already structured, no rewriting needed.
 
 ## File map
 

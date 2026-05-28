@@ -11,7 +11,7 @@ Mental model:
 
 Why this layering: contexts are cheap to create (~50ms), browsers are expensive
 (~1-2s). Reusing the browser keeps tool calls fast; isolating contexts per
-session keeps GitHub cookies separate from your AT&T portal cookies.
+session keeps GitHub cookies separate from your portal cookies.
 """
 from __future__ import annotations
 

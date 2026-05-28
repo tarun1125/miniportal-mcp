@@ -3,7 +3,7 @@
 # and how aggressively to cache extracted data.
 
 # URL allowlist: domain suffixes. Server refuses to navigate elsewhere.
-# Add your AT&T portal domains here later. Empty list = allow everything (dev only).
+# Add your portal domains here. Empty list = allow everything (dev only).
 url_allowlist:
   - github.com
   - api.github.com
